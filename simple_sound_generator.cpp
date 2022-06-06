@@ -24,7 +24,7 @@ using namespace std;
 const int sampleRate=44100;	 //Period. CD quality.(1 periyotluk dalga sayısı)
 const int bitDepth=16;		//bits per sample.as wave file standard 
 const int channels=1;	   // mono/stereo setting of sound
-
+int note_shift_example(); // protocode declaration
 
 class SineOscillator{//Produce sinuse waves (representation of sounds)
 public:
@@ -87,6 +87,22 @@ int wave_format(ofstream &audioFile){
     return 0;
 }
 
+
+int main(int argc, char** argv) {
+	/*write an example sound.wav file and exit*/
+    if(-1==note_shift_example()){
+    	cout<<"program sıçtı. Beni bırak gideyim ağabey.\n";
+    	return -1;
+    }
+
+    return 0;
+}
+
+/*
+*
+*EXAMPLE sound file
+*
+*/
 int note_shift_example(){
 
 	int duration=1;//duration of sound goes
@@ -135,7 +151,7 @@ int note_shift_example(){
 	//sample music coded. It is a folk song 
 	//from the Tunceli region of Turkey
 	string music_name="nenni bebek.wav";
-	float notes[220][2]={
+	float notes[382][2]={
 	{map["f#2"],0.1},
 	{map["."],0.05},
 	{map["f#2"],0.1},
@@ -416,7 +432,210 @@ int note_shift_example(){
 	{map["b2"],0.1},
 	{map["."],0.05},
 	{map["b2"],0.1},
-	{map["."],0.05}
+	{map["."],0.05},
+	
+	//gitti beşiğe dayandı
+	{map["a#2"],0.1},
+	{map["."],0.05},
+	{map["b2"],0.1},
+	{map["."],0.05},
+	{map["b2"],0.25},
+	{map["."],0.05},
+	
+	{map["a#2"],0.1},
+	{map["."],0.05},
+	{map["b2"],0.1},
+	{map["."],0.05},
+	{map["b2"],0.25},
+	{map["."],0.05},
+	
+	{map["a#2"],0.1},
+	{map["."],0.05},
+	{map["b2"],0.1},
+	{map["."],0.05},
+	{map["a#2"],0.1},
+	{map["."],0.05},
+	
+	{map["b2"],0.1},
+	{map["."],0.05},
+	{map["b2"],0.1},
+	{map["."],0.05},
+	
+	{map["c#3"],0.25},
+	{map["."],0.05},
+	
+	//****
+	{map["b2"],0.1},
+	{map["."],0.05},
+	{map["c#3"],0.1},
+	{map["."],0.05},
+	
+	{map["a#2"],0.1},
+	{map["."],0.05},
+	{map["b2"],0.1},
+	{map["."],0.05},
+	
+	{map["g#2"],0.25},
+	{map["c#2"],0.05},
+	{map["f#2"],0.25},
+	{map["c#2"],0.05},
+	//bebek uykudan uyandı
+	{map["c#3"],0.1},
+	{map["."],0.05},
+	{map["a#2"],0.1},
+	{map["."],0.05},
+	{map["b2"],0.1},
+	{map["."],0.05},
+	{map["a#2"],0.1},
+	{map["."],0.05},
+	
+	{map["b2"],0.25},
+	{map["."],0.05},
+	{map["b2"],0.1},
+	{map["."],0.05},
+	{map["a#2"],0.1},
+	{map["."],0.05},
+	
+	{map["b2"],0.25},
+	{map["."],0.05},
+	{map["b2"],0.1},
+	{map["."],0.05},
+	{map["a#2"],0.1},
+	{map["."],0.05},
+	
+	{map["b2"],0.25},
+	{map["."],0.05},
+	{map["b2"],0.1},
+	{map["."],0.05},
+	{map["a#2"],0.1},
+	{map["."],0.05},
+	
+	{map["b2"],0.1},
+	{map["."],0.05},
+	{map["b2"],0.1},
+	{map["."],0.05},
+	{map["c#3"],0.25},
+	{map["."],0.05},
+	
+	//****
+	{map["b2"],0.1},
+	{map["."],0.05},
+	{map["c#3"],0.1},
+	{map["."],0.05},
+	
+	{map["a#2"],0.1},
+	{map["."],0.05},
+	{map["b2"],0.1},
+	{map["."],0.05},
+	
+	{map["g#2"],0.25},
+	{map["c#2"],0.05},
+	{map["g#2"],0.1},
+	{map["f#2"],0.1},
+	{map["c#2"],0.05},
+	
+	//düşüş >>son kısım
+	//sol mire redo remi
+	{map["c#3"],0.4},
+	{map["."],0.05},
+	{map["b2"],0.1},
+	{map["."],0.05},
+	{map["g#2"],0.4},
+	{map["."],0.05},
+	{map["a#2"],0.1},
+	{map["."],0.05},
+	{map["b2"],0.4},
+	{map["."],0.05},
+
+	{map["b2"],0.1},
+	{map["a#2"],0.1},
+	{map["b2"],0.25},
+	
+	{map["g#2"],0.1},
+	{map["."],0.05},
+	{map["f#2"],0.25},
+	{map["."],0.05},
+	
+	{map["f#2"],0.1},
+	{map["."],0.05},
+	{map["e2"],0.25},
+	{map["."],0.05},
+	
+	{map["f#2"],0.1},
+	{map["."],0.05},
+	{map["g#2"],0.25},
+	{map["."],0.05},
+	
+	//mi.. doresi dosi dore
+	{map["g#2"],0.25},
+	{map["."],0.05},
+	{map["g#2"],0.1},
+	{map["."],0.05},
+	{map["g#2"],0.1},
+	{map["."],0.05},
+	
+	{map["e2"],0.1},
+	{map["."],0.05},
+	{map["f#2"],0.1},
+	{map["."],0.05},
+	{map["d#2"],0.25},
+	{map["."],0.05},
+	
+	{map["e2"],0.1},
+	{map["."],0.05},
+	{map["d#2"],0.25},
+	{map["."],0.05},
+	
+	{map["e2"],0.1},
+	{map["."],0.05},
+	{map["f#2"],0.25},
+	{map["."],0.05},
+	
+	//re. dosi sila sido
+	{map["f#2"],0.25},
+	{map["."],0.05},
+
+	{map["e#2"],0.1},
+	{map["."],0.05},
+	{map["d#2"],0.25},
+	{map["."],0.05},
+	
+	{map["d#2"],0.1},
+	{map["."],0.05},
+	{map["c#2"],0.25},
+	{map["."],0.05},
+	
+	{map["d#2"],0.1},
+	{map["."],0.05},
+	{map["e2"],0.25},
+	{map["."],0.05},
+	//dosido si-la si-si lala
+	{map["e2"],0.05},
+	{map["d#2"],0.05},
+	{map["e2"],0.25},
+	{map["."],0.05},
+	
+	{map["d#2"],0.25},
+	{map["."],0.05},
+	{map["c#2"],0.25},
+	{map["."],0.05},
+	
+	{map["d#2"],0.25},
+	{map["."],0.05},
+	{map["d#2"],0.1},
+	{map["."],0.05},
+	
+	{map["c#2"],0.1},
+	{map["."],0.05},
+	{map["c#2"],0.25},
+	{map["."],0.05},
+	
+	{map["c#2"],0.25},
+	{map["."],0.05},
+	{map["f#2"],0.25},
+	{map["."],0.05},
+	{map["c#2"],0.4},
+	{map["."],0.05},
 	};
 	
 
@@ -452,14 +671,3 @@ int note_shift_example(){
     return 0;
     
 }
-
-int main(int argc, char** argv) {
-	/*write an example sound.wav file and exit*/
-    if(-1==note_shift_example()){
-    	cout<<"program sıçtı. Beni bırak gideyim ağabey.\n";
-    	return -1;
-    }
-
-    return 0;
-}
-
