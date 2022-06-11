@@ -43,12 +43,12 @@ for a in range(SAMPLE_RATE*4):
 
 	
 plt.plot(k[:200],"--r",
-	 k2[:200],"--b",
-	 k3[:200],"-g")
-plt.xlabel("periot(T)")
-plt.ylabel("amplitude?")
+         k3[:200],"-g",
+	 k2[:200],"--b")
+plt.xlabel("sample N")
+plt.ylabel("amplitude*")
 
-plt.legend(["freq 1:{}".format(freq1),"assembled freq(mean)","freq 2:{}".format(freq2)])
+plt.legend(["freq 1:{}Hz".format(freq1),"assembled freq(mean)","freq 2:{}Hz".format(freq2)])
 plt.show()
 
 """
