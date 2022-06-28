@@ -14,8 +14,6 @@
 #include<iostream>
 #include<math.h>	//required to use pi value
 #include<fstream>	//file operations
-#include<map>		//hashmap for notes
-#include<string>	//use instead char* to surpass warnings
 using namespace std;
 /*
  * 
@@ -70,12 +68,12 @@ int monophony_example(string music_name){
     
     //write the sound data(notes array) to file
 	int i;		//notes[i][0]=musical note ;; notes[i][1]=how much note goes
-	for(i=0;i<sizeof(notes)/sizeof(*notes);i++){
+	for(auto curr:example_msc1){
 	
-		osc=SineOscillator(notes[i][0],amplitude);//calculation of musical note
-		
-		uretec(audioFile,osc,notes[i][1],maxAmplitude);//dumping to file
+		osc=SineOscillator(noteMap[curr.first],amplitude);
+		uretec(audioFile,osc, curr.second ,maxAmplitude);
 	}
+	
 	wave_end_format(audioFile); //close file
 	
     return 0;
@@ -143,21 +141,15 @@ int homophony_example(string music_name){
     
     //write the sound data(notes array) to file
 	int i;
-	for(i=0;i<2;i++){
-		
-		instrument.setStrings("f#2",amplitude);
-		instrument.process(1,audioFile);
-		
-		instrument.setStrings("g#2",amplitude);
-		instrument.process(1,audioFile);
-		
-		instrument.setStrings("a#2",amplitude);
-		instrument.process(1,audioFile);
-		
-		instrument.setStrings("b2",amplitude);
-		instrument.process(1,audioFile);
-		
+	for(auto curr:example_msc1){
+		/*
+		string n=curr.first;
+		float f =curr.second;
+		*/
+		instrument.setStrings(curr.first,amplitude);
+		instrument.process(curr.second,audioFile);
 	}
+	
 	wave_end_format(audioFile);
 	
 	return 0;
