@@ -4,6 +4,9 @@ TARGET=info
 all:info makedirs compile
 DIR=sound_generator
 
+SRC_FILES:=$(shell ls source/*.cpp)
+HEADER_FILES:=$(shell ls header/*.h)
+
 info:
 	@echo "----------------------"
 	@echo "Halil Ibrahim MUT"
@@ -14,7 +17,7 @@ info:
 
 compile:
 	@echo "compiling.."
-	g++ simple_sound_generator.cpp example_music.cpp wave_settings.cpp -o "$(DIR)/bin/generator"
+	g++ $(SRC_FILES) -o "$(DIR)/bin/generator"
 	@echo "---------------------------"
 	@echo "Done"
 
