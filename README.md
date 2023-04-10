@@ -8,3 +8,6 @@
   * To visualise the combining of different sound frequencies into one. Idea will be implement later
   * sound assemble.py plots sample frequencies on window. .png is output of this code.
   * ![sample visualization](sound_assemble.png)
+  
+* sample GUI
+ ![composer gui](https://github.com/ibo52/simple-sound-generator/blob/master/images/composerGUI.png)
