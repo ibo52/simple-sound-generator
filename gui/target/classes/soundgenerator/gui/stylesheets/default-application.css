@@ -1,0 +1,94 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Apr 19, 2023, 12:28:43 AM
+    Author     : ibrahim
+*/
+
+.root{
+    custom-background:#66ffff;
+    custom-background-light:#f0ffff;
+    custom-panel-color:linear-gradient(custom-background,custom-background-light);
+    custom-panel-hover-color:linear-gradient(#00d0d0,custom-background-light);
+    
+    addstave-button-color:linear-gradient(to top left,#66ffff,custom-background-light);
+    addstave-button-hover-color:linear-gradient(to top left,#00d0d0,custom-background-light);
+    
+    notesheet-header-background:
+        linear-gradient(custom-background 20%, white 100%),
+        radial-gradient(center 50% -40%, radius 100%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 60;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+    
+    custom-button-color: 
+        linear-gradient(white 20%, #f0f0ff 100%),
+        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+    
+    custom-button-hover-color: 
+        linear-gradient(white 20%, #b0b0ff 100%),
+        radial-gradient(center 50% -40%, radius 200%, #969696 45%, rgba(110,110,110,0) 50%);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+
+#noteSheetPanel{
+    -fx-background-color:custom-background;
+}
+
+#leftPanel{
+    -fx-background-color:custom-panel-color;
+}
+
+#leftPanelShowLabel{
+    -fx-background-color:custom-panel-color;
+}
+#leftPanelShowLabel:hover{
+    -fx-background-color: custom-panel-hover-color;
+}
+
+.button{
+    -fx-background-color:custom-button-color;
+}
+.button:hover {
+    -fx-background-color: custom-button-hover-color;
+}
+
+.label{
+    -fx-font-family:times-new roman;
+
+}
+
+#stavePanel{
+    -fx-background-color:radial-gradient(center 50% 50%, radius 50%, custom-background 20%, custom-background-light 100%);
+}
+
+#HeaderPanel{
+    -fx-background-color:notesheet-header-background;
+}
+
+#addStaveLabel{
+    -fx-background-color:addstave-button-color;
+}
+#addStaveLabel:hover{
+    -fx-background-color:addstave-button-hover-color;
+}
+
+.menu-bar{
+    -fx-background-color:custom-background;
+}
+.menu{
+    -fx-background-color:custom-background;
+}
+.menu-item{
+    -fx-background-color:custom-background;
+}

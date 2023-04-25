@@ -1,0 +1,10 @@
+soundgenerator/gui/controllers/NoteEditorController$2.class
+soundgenerator/gui/controllers/NoteSheetPanelController.class
+soundgenerator/gui/App.class
+soundgenerator/object/Composer.class
+soundgenerator/gui/controllers/NoteEditorController$1.class
+soundgenerator/component/StaveCanvas.class
+module-info.class
+soundgenerator/object/MusicNote.class
+soundgenerator/gui/controllers/NoteEditorController.class
+soundgenerator/gui/controllers/StavePanelController.class
