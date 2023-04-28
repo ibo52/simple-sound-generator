@@ -3,26 +3,36 @@
 #include <iostream>
 WaveFormatter::WaveFormatter(){
     this->music_name="sample_music.wav";
-    this->audioFile.open("../sounds/"+this->music_name,ios::binary);//open file as binary;
-    this->channels=1;
-    this->sampleRate=44100;
-    this->bitDepth=16;
-    
-    this->maxAmplitude=(2<<(this->bitDepth-1))-1;
+    this->audioFile.open("../sounds/"+this->music_name, ios::binary | ios::trunc);//open file as binary;
+    if(this->audioFile.is_open()){
+		this->channels=1;
+		this->sampleRate=44100;
+		this->bitDepth=16;
+		
+		this->maxAmplitude=(2<<(this->bitDepth-1))-1;
 
-    this->wave_begin_format();
+		this->wave_begin_format();
+    }else{
+    	cout<<"WaveFormatter: Could not open or create file!:"<<this->music_name<<endl;
+    	exit(EXIT_FAILURE);
+    }
     
 }
 WaveFormatter::WaveFormatter(string music_name){
     this->music_name=music_name;
-    this->audioFile.open("../sounds/"+this->music_name,ios::binary);//open file as binary;
-    this->channels=1;
-    this->sampleRate=44100;
-    this->bitDepth=16;
-    
-    this->maxAmplitude=(2<<(this->bitDepth-1))-1;
-    
-    this->wave_begin_format();
+    this->audioFile.open(this->music_name, ios::binary | ios::trunc);//open file as binary;
+    if(this->audioFile.is_open()){
+		this->channels=1;
+		this->sampleRate=44100;
+		this->bitDepth=16;
+		
+		this->maxAmplitude=(2<<(this->bitDepth-1))-1;
+		
+		this->wave_begin_format();
+    }else{
+    	cout<<"WaveFormatter: Could not open or create file!"<<music_name<<endl;
+    	exit(EXIT_FAILURE);
+    }
 }
 
 int WaveFormatter::wave_begin_format(){

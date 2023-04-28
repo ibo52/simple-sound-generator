@@ -136,25 +136,26 @@ int main(int argc, char** argv) {
         }else if(out.empty()){
             out="msc_out.wav";
         }
+        cout<<"Compile from path:"<<in<<endl;
+    
+		NoteReader nr=NoteReader(in);
+		nr.readToBuffer();
+		
+		example_msc1=nr.notes;
+		
+		cout<<"sample compiling to generate music..";
+		if(0!=monophony_example(out)){
+		        cout<<"monophonic failed. Beni bırak gideyim ağabey.\n";
+		        return -1;
+		    }
+		    if(0!=homophony_example(out)){
+		        cout<<"homophonic failed. Beni bırak gideyim ağabey.\n";
+		        return -1;
+		    }
+		
+		cout<<"Done\n"<<endl;
+		cout<<"saved to:"<<out<<endl;
     }
-    
-    NoteReader nr=NoteReader(in);
-    nr.readToBuffer();
-    
-    example_msc1=nr.notes;
-    
-    cout<<"sample musics compiling from:"<<in<<" to generate..";
-    if(0!=monophony_example("monophonic_"+out)){
-            cout<<"monophonic failed. Beni bırak gideyim ağabey.\n";
-            return -1;
-        }
-        if(0!=homophony_example("homophonic_"+out)){
-            cout<<"homophonic failed. Beni bırak gideyim ağabey.\n";
-            return -1;
-        }
-    
-    cout<<"Done\n"<<endl;
-    
     return 0;
 }
 
