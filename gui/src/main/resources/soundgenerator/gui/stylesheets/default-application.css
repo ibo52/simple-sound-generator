@@ -10,14 +10,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 .root{
     custom-background:#66ffff;
     custom-background-light:#f0ffff;
-    custom-panel-color:linear-gradient(custom-background,custom-background-light);
+    custom-panel-color:linear-gradient(custom-background 0%,custom-background-light 30%
+        ,custom-background 50%,#00d0d0 70%,
+        #1f9494 90%,#0e6464 100%);
+    
     custom-panel-hover-color:linear-gradient(#00d0d0,custom-background-light);
     
     addstave-button-color:linear-gradient(to top left,#66ffff,custom-background-light);
     addstave-button-hover-color:linear-gradient(to top left,#00d0d0,custom-background-light);
     
     notesheet-header-background:
-        linear-gradient(custom-background 20%, white 100%),
+        linear-gradient(#1f9494 0%, #00d0d0 30%,custom-background 50%,
+        custom-background-light 80%, white 100%),
         radial-gradient(center 50% -40%, radius 100%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
     -fx-background-radius: 60;
     -fx-background-insets: 0,1,1;
@@ -68,6 +72,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 }
 
+#noteEditor{
+    -fx-background-color:linear-gradient(custom-background 0%,custom-background-light 10%),
+        linear-gradient(#66ffff 30%,#00d0d0 40%),
+        linear-gradient(#1f9494 70%,#0e6464 100%);
+    /*
+    -fx-background-color:radial-gradient(center 50% 50%, radius 50%, custom-background 20%, custom-background-light 100%);
+*/
+}
+
 #stavePanel{
     -fx-background-color:radial-gradient(center 50% 50%, radius 50%, custom-background 20%, custom-background-light 100%);
 }
@@ -91,4 +104,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 .menu-item{
     -fx-background-color:custom-background;
+}
+
+#deleteStaveButton{
+    -fx-background-image:url(../icons/trash-icon.png);
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 20 40;
 }

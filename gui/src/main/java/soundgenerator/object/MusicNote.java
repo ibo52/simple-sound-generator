@@ -12,10 +12,10 @@ import javafx.scene.paint.Color;
  * @author ibrahim
  */
 public class MusicNote {
-    private int xPos;
-    private int yPos;
-    private int width;
-    private int height;
+    private double xPos;
+    private double yPos;
+    private double width;
+    private double height;
     
     public int tone;
     public float duration;
@@ -43,6 +43,16 @@ public class MusicNote {
         this.tone=-1;
         this.octave=1;
     }
+    public MusicNote(int x, int y, double w, double h){
+        xPos = x;
+        yPos = y;
+        width = w;
+        height = h;
+        
+        this.duration=0.5f;
+        this.tone=-1;
+        this.octave=1;
+    }
     public MusicNote(int x, int y, int w, int h,float duration, short octave){
         xPos = x;
         yPos = y;
@@ -58,7 +68,7 @@ public class MusicNote {
         this.xPos = xPos;
     }
 
-    public int getX(){
+    public double getX(){
         return xPos;
     }
 
@@ -66,34 +76,41 @@ public class MusicNote {
         this.yPos = yPos;
     }
 
-    public int getY(){
+    public double getY(){
         return yPos;
     }
 
-    public int getWidth(){
+    public double getWidth(){
         return width;
-    } 
+    }
+    public void setWidth(double w){
+        this.width=w;
+    }
 
-    public int getHeight(){
+    public double getHeight(){
         return height;
+    }
+    public void setHeight(double h){
+        this.height=h;
     }
     
     public void setTone(int t){
         this.tone=t;
+    }
+    public void setDuration(float t){
+        this.duration=t;
     }
     public String getTone(){
         String[] map={"b","c","d","e","f","g","a","b","c","d","e"};
 
         String tone="";
         
-        if (this.tone>0 && this.tone<8) {
-            tone=String.valueOf(this.octave+1);
-        }else if (this.tone==0) {
+        if (this.tone>=0 && this.tone<6) {
             tone=String.valueOf(this.octave);
+        }else if (this.tone>=6) {
+            tone=String.valueOf(this.octave+1);
         }
-        else if (this.tone>=8) {
-            tone=String.valueOf(this.octave+2);
-        }else if(this.tone==-1){
+        else if(this.tone==-1){
             tone=".1";
         }
         if (this.tone>=0 && this.tone<=10) {
@@ -112,9 +129,11 @@ public class MusicNote {
 
     public void paintNote(GraphicsContext g){
         g.setFill(Color.BLUE);
-        g.fillRect(xPos,yPos,width,height);  
         
-        g.strokeLine(xPos+width, yPos, xPos+width, yPos-20);
+        double xRelPos=xPos*width;
+        double yRelPos=yPos*height;
+        g.fillRect(xRelPos,yRelPos,width,height);
+        g.strokeLine(xRelPos+width, yRelPos, xRelPos+width, yRelPos-height);
     }
     
 }

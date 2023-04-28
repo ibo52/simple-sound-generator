@@ -8,6 +8,6 @@
       <Button fx:id="deleteStaveButton" mnemonicParsing="false" onMouseClicked="#deleteStaveButtonClicked" prefHeight="110.0" prefWidth="30.0" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <BorderPane fx:id="canvasPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <BorderPane fx:id="canvasPane" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

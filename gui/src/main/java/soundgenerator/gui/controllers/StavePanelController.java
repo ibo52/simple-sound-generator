@@ -40,12 +40,6 @@ public class StavePanelController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    
-    int NOTE_ON_A_ROW;
-    int NOTE_ON_A_COL;
-    MusicNote[] noteList;
-    Point DRAW_ROW_COL;
-    int[] snapArea;
     @FXML
     private BorderPane canvasPane;
     @FXML
@@ -54,19 +48,15 @@ public class StavePanelController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        NOTE_ON_A_ROW=36;
-        NOTE_ON_A_COL=11;
-        DRAW_ROW_COL=new Point(); //x:order of note, y:tone of note
-        DRAW_ROW_COL.setX(0);DRAW_ROW_COL.setY(0);
-        this.noteList=new MusicNote[NOTE_ON_A_ROW];
-        for (int i = 0; i < this.noteList.length; i++) {
-            this.noteList[i]=new MusicNote();
-        }
-        
-        snapArea=new int[4];
-        
-        
         canvas2=new StaveCanvas();
+        canvas2.widthProperty().bind(canvasPane.widthProperty());
+        canvas2.heightProperty().bind(canvasPane.heightProperty());
+        
+        canvasPane.setCenter(canvas2);
+        
+    }
+    public void setCanvas(StaveCanvas canvas){
+        this.canvas2=canvas;
         canvas2.widthProperty().bind(canvasPane.widthProperty());
         canvas2.heightProperty().bind(canvasPane.heightProperty());
         canvasPane.setCenter(canvas2);
@@ -74,6 +64,12 @@ public class StavePanelController implements Initializable {
     
     public StaveCanvas getCanvas(){
         return this.canvas2;
+    }
+    public BorderPane getCanvasPane(){
+        return this.canvasPane;
+    }
+    public BorderPane getRootPane(){
+        return this.rootPane;
     }
 
     @FXML

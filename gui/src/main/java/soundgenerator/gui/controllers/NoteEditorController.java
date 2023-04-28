@@ -7,24 +7,24 @@ package soundgenerator.gui.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -47,16 +47,16 @@ public class NoteEditorController implements Initializable {
     @FXML
     private VBox staveContentPanel;
     @FXML
-    public BorderPane rootPane;
+    public BorderPane noteEditor;
     /**
      * Initializes the controller class.
      */
     TextField composerNameEditField;
     TextField musicNameEditField;
-    @FXML
-    private BorderPane stavePanel;
     
     private File SAVE_FILE;
+    @FXML
+    private BorderPane stavePanel;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -65,7 +65,7 @@ public class NoteEditorController implements Initializable {
             initComponents2();
             
             this.addStave();
-            
+
         } catch (Exception ex) {
             ex.printStackTrace();
             System.exit(ex.hashCode());
@@ -89,6 +89,21 @@ public class NoteEditorController implements Initializable {
                     HeaderPanel.getChildren().remove(musicNameEditField); 
                     MusicNameLabel.setText(musicNameEditField.getText());
                     HeaderPanel.setTop(MusicNameLabel);
+                    
+                    if (SAVE_FILE!=null) {
+                        
+                        try {
+                            File movePath=new File(SAVE_FILE.getParent()+"/"+MusicNameLabel.getText().concat(".txt"));
+                            
+                            Path moved=Files.move(SAVE_FILE.toPath(),
+                                    movePath.toPath(),
+                                    StandardCopyOption.REPLACE_EXISTING);
+
+                            SAVE_FILE=new File(moved.toString());
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
 
                 }
             }
@@ -119,10 +134,6 @@ public class NoteEditorController implements Initializable {
         
         this.HeaderPanel.getChildren().remove(this.MusicNameLabel);        
         this.HeaderPanel.setCenter(this.musicNameEditField);
-        
-        System.out.println("stvContent:"+this.staveContentPanel.getWidth()+"x"+this.staveContentPanel.getHeight());
-
-        System.out.println("stave"+this.stavePanel.getWidth()+"x"+this.stavePanel.getHeight());
     }
 
     @FXML
@@ -131,6 +142,10 @@ public class NoteEditorController implements Initializable {
         
         this.HeaderPanel.getChildren().remove(this.ComposerNameLabel);        
         this.HeaderPanel.setBottom(this.composerNameEditField);
+    }
+    
+    public void removeAllStaves(){
+        this.staveContentPanel.getChildren().clear();
     }
     
     public void addStave(){
@@ -151,26 +166,22 @@ public class NoteEditorController implements Initializable {
             System.exit(ex.hashCode());
         }
     }
+    public Node getStaveContentPanel(){
+        return this.staveContentPanel;
+    }
     
+    public void setSaveFile(File file){
+        this.SAVE_FILE=file;
+        String name=this.SAVE_FILE.getName().replaceAll(".txt", "");
+        this.MusicNameLabel.setText(name);
+    }
     public void saveToFile(){
         
         if (this.SAVE_FILE==null) {
             this.saveAs();
         }else{
             
-            Composer txtFile=new Composer(this.SAVE_FILE.getPath());
-            
-            this.staveContentPanel.getChildren().forEach(child->{
-
-                 FXMLLoader fxml = (FXMLLoader) child.getUserData();
-                 
-                 StavePanelController ctrl=fxml.getController();
-
-                 for (int i = 0; i < ctrl.getCanvas().noteList.length; i++) {
-
-                    txtFile.writeln( ctrl.getCanvas().noteList[i].getTone() );
-                }
-            });
+            writeStaveDataToFile();
         }
         
     }
@@ -184,7 +195,8 @@ public class NoteEditorController implements Initializable {
         String saveName;
         
         if (this.SAVE_FILE==null) {
-            saveDirectory=new File(this.getClass().getClassLoader().getResource("").getPath());
+            saveDirectory=new File(new File("").getAbsolutePath()+"/Note Sheets");
+            saveDirectory.mkdir();
             saveName=this.MusicNameLabel.getText();
         }else{
             saveDirectory=new File(this.SAVE_FILE.getParent());
@@ -199,15 +211,40 @@ public class NoteEditorController implements Initializable {
         if (selection!=null) {
 
             String extension=fc.getSelectedExtensionFilter().getExtensions().get(0).substring(1);
-            selection=new File(selection.getPath()+extension);
             
-            System.out.println("text file save dir:"+selection.getPath());
-            System.out.println("name:"+selection.getName());
+            if (selection.getPath().endsWith(extension)) {
+                selection=new File(selection.getPath());
+            }else{
+                selection=new File(selection.getPath()+extension);
+            }
             
             this.SAVE_FILE=selection;
             
-            Composer txtFile=new Composer(this.SAVE_FILE.getPath());
+            writeStaveDataToFile();
+        }
+    }
+    
+    public void composeFromFile(){
+        var inputFile=this.SAVE_FILE;
+        
+        if (inputFile==null) {
+            Alert alt=new Alert(Alert.AlertType.WARNING);
+            alt.setTitle("Compose button: No file");
+            alt.setContentText("there is no saved text file to compose. "
+            +"Please select one or create by \"save\" button");
             
+            alt.showAndWait();
+        }else{
+            
+            Composer c=new Composer(inputFile.getPath(),true);
+            c.composeMusic(inputFile.getName().substring(0, inputFile.getName().indexOf(".txt")) );
+        }
+        
+    }
+    
+    private void writeStaveDataToFile(){
+        Composer txtFile=new Composer(this.SAVE_FILE.getPath());
+            txtFile.writeln(";OCTAVE:1");//write octave info at first
             this.staveContentPanel.getChildren().forEach(child->{
 
                  FXMLLoader fxml = (FXMLLoader) child.getUserData();
@@ -220,30 +257,6 @@ public class NoteEditorController implements Initializable {
                 }
             });
             txtFile.close();
-            System.out.println("saved..");
-
-        }
     }
-    
-    public void composeFromFile(){
-        var inputFile=this.SAVE_FILE;
-        
-        String saveName;
-        File composeDirectory;
-        
-        if (inputFile==null) {
-            Alert alt=new Alert(Alert.AlertType.WARNING);
-            alt.setTitle("Compose button: No file");
-            alt.setContentText("there is no saved text file to compose. "
-            +"Please select or create by \"save\" button");
-            alt.showAndWait();
-        }else{
-            
-            Composer c=new Composer(inputFile.getPath(),true);
-            c.composeMusic(inputFile.getName().substring(0, inputFile.getName().indexOf(".txt")) );
-        }
-        
-    }
-    
     
 }

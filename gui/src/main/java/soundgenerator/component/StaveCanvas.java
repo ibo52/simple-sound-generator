@@ -4,6 +4,7 @@
  */
 package soundgenerator.component;
 
+import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
@@ -28,10 +29,7 @@ public class StaveCanvas extends Canvas {
     int[] snapArea;
     
     public StaveCanvas() {
-            // Redraw canvas when size changes.
-            widthProperty().addListener(evt -> paintComponent());
-            heightProperty().addListener(evt -> paintComponent());
-            
+        
             NOTE_ON_A_ROW=36;
             NOTE_ON_A_COL=11;
             DRAW_ROW_COL=new Point2D(0,0); //x:order of note, y:tone of note
@@ -39,8 +37,26 @@ public class StaveCanvas extends Canvas {
             for (int i = 0; i < noteList.length; i++) {
                 noteList[i]=new MusicNote();
             }
-        
-            snapArea=new int[4];
+            snapArea=new int[]{0,0,1,1};
+            //--------------------------------
+            // Redraw canvas when size changes.
+            ChangeListener<Number> resizeListener = (observable, oldValue, newValue) ->{
+                var pen=this.getGraphicsContext2D();
+                int width=(int)getWidth();
+                int height=(int)getHeight();
+                int XSnapOffset=(width/NOTE_ON_A_ROW);
+                int YSnapOffset=(height/NOTE_ON_A_COL);
+                
+                pen.clearRect(0, 0, this.getWidth(), this.getHeight());
+                for (MusicNote note:this.noteList) {
+                    note.setWidth(XSnapOffset);
+                    note.setHeight(YSnapOffset);
+                }
+                paintComponent();
+            };
+            widthProperty().addListener(resizeListener);
+            
+            heightProperty().addListener(resizeListener);
             
             this.addEventHandler(MouseEvent.MOUSE_MOVED, eh->{
                 Point2D pos=new Point2D(eh.getX(),eh.getY());
@@ -79,8 +95,11 @@ public class StaveCanvas extends Canvas {
         return getHeight();
     }
     //------------------------------------------
-
+    public void repaint(){
+        this.paintComponent();
+    }
     private void paintComponent() {
+        
         double width = getWidth();
         double height = getHeight();
 
@@ -111,9 +130,9 @@ public class StaveCanvas extends Canvas {
         int drawY=(int) (mousePos.getY()/YSnapOffset);
 
         DRAW_ROW_COL=new Point2D(drawX,drawY);
+        
         drawX*=XSnapOffset;
         drawY*=YSnapOffset;
-
 
         if (  snapArea[0]!=drawX || snapArea[1]!=drawY ) {
             // The square is moving, repaint background 
@@ -129,14 +148,16 @@ public class StaveCanvas extends Canvas {
     }
 
     private void insertNote(){
-        MusicNote n=new MusicNote(snapArea[0], snapArea[1], snapArea[2], snapArea[3]);
+        MusicNote n=new MusicNote(snapArea[0]/snapArea[2],
+                snapArea[1]/snapArea[3],
+                snapArea[2], snapArea[3]);
 
         int clean_h=(int)getHeight();
 
         GraphicsContext pen=getGraphicsContext2D();
         pen.clearRect(snapArea[0], 0, snapArea[2]+1, clean_h+1);
 
-        n.setTone((int) DRAW_ROW_COL.getY());
+        n.setTone(NOTE_ON_A_COL-1 - (int) DRAW_ROW_COL.getY());
 
         noteList[(int)DRAW_ROW_COL.getX()]=n;
     }

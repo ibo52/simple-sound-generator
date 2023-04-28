@@ -11,7 +11,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     
     custom-background:#0a0a0a;
     custom-background-light:#1f9494;
-    custom-panel-color:linear-gradient(custom-background-light,custom-background);
+    custom-panel-color:linear-gradient(custom-background 0%
+        ,custom-background-light 30%
+        ,custom-background 100%);
+    
     custom-panel-hover-color:linear-gradient(custom-background-light, #7a7afa);
     
     addstave-button-color:linear-gradient(to top left,custom-background-light,custom-background);
@@ -40,6 +43,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-background-insets: 0,1,1;
     -fx-text-fill: black;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+    
 }
 
 #noteSheetPanel{
@@ -95,4 +99,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 .menu-item{
     -fx-background-color:custom-background-light;
+}
+
+#deleteStaveButton{
+    -fx-background-image:url(../icons/trash-icon.png);
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 20 40;
 }
