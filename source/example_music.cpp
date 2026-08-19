@@ -1,4 +1,4 @@
-#include "../header/example_music.h"
+#include "example_music.h"
 
 using namespace std;
 

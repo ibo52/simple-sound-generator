@@ -8,11 +8,11 @@
  * given frequency and amplitude rates.
  * Created on January 31, 2022, 10:36 AM
  */
-#include "../header/example_music.h" //example music code to listen
-#include "../header/wave_settings.h" //settings for wave file format
-#include "../header/sineOscillator.h"
-#include "../header/instruments.h"
-#include "../header/noteReader.h"
+#include "example_music.h" //example music code to listen
+#include "WaveFormatter.h" //settings for wave file format
+#include "SineOscillator.h"
+#include "Instruments.h"
+#include "NoteReader.h"
 
 
 #include <cstdlib>
@@ -23,16 +23,11 @@ using namespace std;
 /*
  * 
  */
-const int sampleRate=44100;	 //Period. CD quality.(defines how many waves will be at a second)
-const int bitDepth=16;		//bits per sample.(16 as wave file standard)
-const int channels=1;	   // mono/stereo setting of sound
-auto maxAmplitude=(2<<(bitDepth-1))-1;
-
 //write to file note's oscillation and duration of that note(how much seconds will it play)
 void uretec(WaveFormatter &f,SineOscillator &so2,float duration,double maxAmplitude){
     
     int i;
-    for(i=0;i<sampleRate*duration;i++){
+    for(i=0;i< so2.sampleRate *duration;i++){
         auto sample2=so2.process();
         int intSample2=static_cast<int> (sample2*maxAmplitude);
         
@@ -46,21 +41,24 @@ int monophony_example(string music_name){
     
 	float amplitude=0.5;	//sound magnitude
 
+    float time_coeff=2.0;
+
 	SineOscillator osc;		//declare oscillator to produce musical notes
 	
 	WaveFormatter Wave=WaveFormatter(music_name);//waveformatter class creates a file
     
     //write the sound data(notes array) to WaveFormatter class' file
-	int i;		//notes[i][0]=musical note ;; notes[i][1]=how much note goes
+	//int i;		//notes[i][0]=musical note ;; notes[i][1]=how much note goes
+
 	for(pair<string,float> curr:example_msc1){
             
             string note=curr.first;
             int size=note.size()-1;
             int octave= stoi( note.substr(size) );//last char of string is frequency/octave
             note=note.substr(0,size);		  //remaining chars of string is note table
-            
+
             osc=SineOscillator(notalar[note][ to_string(octave) ],amplitude);
-            uretec(Wave, osc, curr.second ,maxAmplitude);
+            uretec(Wave, osc, curr.second*time_coeff ,Wave.maxAmplitude);
 	}
 	
 	Wave.close(); //close file
@@ -72,6 +70,7 @@ int monophony_example(string music_name){
 //same notes with different harmony layers(octaves/frequencies..?) is homophony,i suppose
 int homophony_example(string music_name){
 
+    float time_coeff=2.0;
 	float amplitude=0.5;//sound magnitude
 	
 	Instrument instrument;
@@ -80,11 +79,14 @@ int homophony_example(string music_name){
     
     
     //write the sound data(notes array) to file
-	int i;
 	for(pair<string,float> curr:example_msc1){
+        string note=curr.first;
+        int size=note.size()-1;
+        int octave= stoi( note.substr(size) );//last char of string is frequency/octave
+        note=note.substr(0,size);
 
-		instrument.setStrings(curr.first,amplitude);
-		instrument.process(curr.second,Wave);
+		instrument.setNote(notalar[note][ to_string(octave) ],amplitude);
+		instrument.process(curr.second*time_coeff, Wave);
 	}
 	
 	Wave.close();
