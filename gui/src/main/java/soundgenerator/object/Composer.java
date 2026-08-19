@@ -12,11 +12,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextArea;
@@ -123,7 +125,9 @@ public class Composer {
         
         Runtime rt=Runtime.getRuntime();
         
-        String exec_path="/home/ibrahim/Desktop/TLauncher-2.83/kırmançee/simple-sound-generator/sound_generator/bin/generator";
+        var cwd=System.getProperty("user.dir");
+        Path exec_path_p=Path.of(cwd,"..", "bin/simple-sound-generator");
+        String exec_path=exec_path_p.toString();
         
         File mscPath=new File(new File("").getAbsolutePath()+"/Composed Musics/");
         //if path does not exist, create one
